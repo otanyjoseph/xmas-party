@@ -1,8 +1,6 @@
-// Paste your NEW Firebase project's web-app config here (Firebase console → Project settings → Your apps).
-// These values are not secrets; your data is protected by the Firestore rules and Firebase Auth.
 window.FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyC12icnaFDmaNAUgYR2VrJZTkIuz6tctxU",
+  authDomain: "xmas-party-a3181.firebaseapp.com",
+  projectId: "xmas-party-a3181",
+  appId: "1:506328947374:web:b756f5f1f9eefa3b9d2b3f"
 };
