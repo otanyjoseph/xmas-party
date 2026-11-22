@@ -184,3 +184,12 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 /* red running stitch across the bottom, matching the side stitches */
 .runner::after{content:"";position:absolute;left:calc(var(--u)*5.2);right:calc(var(--u)*5.2);bottom:calc(var(--u)*3);height:calc(var(--u)*2);
  background:repeating-linear-gradient(90deg,#9c2e29 0 calc(var(--u)*5),transparent calc(var(--u)*5) calc(var(--u)*10));border-radius:1px}
+
+/* ---------- Popups: centered on large screens, kept near the top on phones so the keyboard never covers them ---------- */
+.adm,.adm.mid{align-items:flex-start;padding:calc(env(safe-area-inset-top,0px) + 4vh) 16px 16px;overflow:auto}
+.acard,.mid .acard{border-radius:22px;border:3px dashed var(--red);border-top-width:3px;box-shadow:0 10px 36px rgba(0,0,0,.45);
+ padding:22px 20px 22px;max-height:calc(var(--vvh,100dvh) - 4vh - 24px)}
+@media (min-height:760px) and (min-width:700px){.adm,.adm.mid{align-items:center;padding-top:16px}.acard,.mid .acard{max-height:88vh}}
+.linkbtn{display:block;margin:10px 0 0;padding:6px 0;background:none;border:0;color:var(--red);font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.linkbtn[hidden]{display:none}
+.rsvp.solo{top:calc(var(--u)*97)}

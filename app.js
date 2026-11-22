@@ -34,9 +34,11 @@ function removeDish(id){
  if(!LIVE){DIS=DIS.filter(function(x){return x.id!=id});try{localStorage.setItem('pp-dis',JSON.stringify(DIS))}catch(e){}normCfg();render();return}
  FB.fs.deleteDoc(FB.fs.doc(FB.db,'dishes',id)).catch(function(e){console.error(e);toast('Couldn’t delete that — try again.')});
 }
+// Slot counts are whole numbers from 0 to 6 (the Firestore rules enforce the same limit)
+function cleanCfg(c){var o={};CATS.forEach(function(x){var k=x[0];o[k]={};KINDS[k].forEach(function(n){var v=Math.round(+c[k][n]);o[k][n]=Math.max(0,Math.min(6,isNaN(v)?0:v))})});return o}
 function saveCfg(cfg){
  if(!LIVE){CFG=cfg;try{localStorage.setItem('pp-cfg',JSON.stringify(CFG))}catch(e){}normCfg();render();return Promise.resolve()}
- return FB.fs.setDoc(FB.fs.doc(FB.db,'config','slots'),cfg);
+ return FB.fs.setDoc(FB.fs.doc(FB.db,'config','slots'),cleanCfg(cfg));
 }
 var el=function(c,t,x){var e=document.createElement(t||'div');e.className=c;if(x!=null)e.textContent=x;return e};
 var rng=function(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
@@ -74,7 +76,7 @@ document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click'
 var adm=$('adm'),draft,cur='app',msg=$('amsg'),lastFocus=null;
 function lock(on){$('page').inert=on;document.documentElement.style.overflow=on?'hidden':''}
 function closeA(){adm.hidden=true;lock(false);if(LIVE&&FB.auth.currentUser)FB.au.signOut(FB.auth);$('dogbtn').focus()}
-function showControls(){draft=JSON.parse(JSON.stringify(CFG));$('alogin').hidden=true;$('amain').hidden=false;msg.textContent=LIVE?'':'Demo mode: changes stay in this browser only.';adminView()}
+function showControls(){draft=JSON.parse(JSON.stringify(CFG));CATS.forEach(function(x){KINDS[x[0]].forEach(function(k){draft[x[0]][k]=Math.min(6,draft[x[0]][k])})});$('alogin').hidden=true;$('amain').hidden=false;msg.textContent=LIVE?'':'Demo mode: changes stay in this browser only.';adminView()}
 $('dogbtn').onclick=function(){$('perr').textContent='';$('pw').value='';adm.hidden=false;lock(true);
  if(!LIVE){showControls();return}          // demo mode has nothing to protect
  $('alogin').hidden=false;$('amain').hidden=true;($('em').value?$('pw'):$('em')).focus()};
@@ -93,7 +95,7 @@ function adminView(){var tb=$('atabs');tb.textContent='';CATS.forEach(function(x
   var s=el('step'),m=el('','button','−'),o=el('','output',draft[cur][k]),pl=el('','button','+');m.type=pl.type='button';m.setAttribute('aria-label','Fewer '+LBL[k]);pl.setAttribute('aria-label','More '+LBL[k]);
   if(draft[cur][k]<=f)m.setAttribute('aria-disabled','true');
   m.onclick=function(){if(draft[cur][k]<=f){msg.textContent=f+' already filled, so '+LBL[k]+' can’t go lower.';return}draft[cur][k]--;msg.textContent='';adminView()};
-  pl.onclick=function(){if(draft[cur][k]<12)draft[cur][k]++;msg.textContent='';adminView()};
+  pl.onclick=function(){if(draft[cur][k]<6)draft[cur][k]++;msg.textContent='';adminView()};
   s.append(m,o,pl);row.appendChild(s);R.appendChild(row)})}
 $('asave').onclick=function(){var b=this;b.disabled=true;
  Promise.resolve(saveCfg(draft)).then(function(){if(!LIVE)CFG=draft;closeA()})
@@ -119,6 +121,13 @@ $('dform').addEventListener('keydown',function(e){if(e.key=='Enter'&&e.target.ta
 $('ddel').onclick=function(){if(!arm){arm=1;this.textContent='Tap again to delete';this.classList.add('pri');return}
  removeDish(ctx.id);closeD()};
 
+// ---- Popups: keep them inside the visible area when the phone keyboard opens ----
+(function(){var vv=window.visualViewport;function s(){document.documentElement.style.setProperty('--vvh',(vv?vv.height:innerHeight)+'px')}s();
+ if(vv){vv.addEventListener('resize',s);vv.addEventListener('scroll',s)}addEventListener('resize',s)})();
+document.addEventListener('focusin',function(e){var t=e.target;if(t.closest&&t.closest('.adm')&&/^(INPUT|TEXTAREA)$/.test(t.tagName))setTimeout(function(){t.scrollIntoView({block:'center',behavior:'smooth'})},250)});
+// ---- Optional demo login (only when firebase-config.js defines window.DEMO_LOGIN) ----
+(function(){var d=window.DEMO_LOGIN,b=$('pdemo');if(!d||!b)return;b.hidden=false;
+ b.onclick=function(){$('em').value=d.email;$('pw').value=d.password;$('perr').textContent='';$('punlock').focus()}})();
 // ---- Start up ----
 // White Elephant tab switches to the illustrated look once all six PNGs are present in /assets
 (function(){var f=['we-banner','we-card','we-footer','gift-red','gift-cream','gift-green'],n=0;
