@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Christmas Potluck &amp; White Elephant</title>
+<meta name="description" content="Claim a dish for the Christmas potluck on December 19 — Rosina &amp; Tany.">
+<meta name="theme-color" content="#183020">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Christmas Potluck &amp; White Elephant">
+<meta property="og:description" content="See what everyone is bringing and claim your dish. December 19 · Rosina &amp; Tany">
+<link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/hdr.webp" as="image">
+<link rel="icon" href="assets/dog.webp" type="image/webp">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div class="col"><div class="page" id="page">
+<header class="hdr" id="hdr">
+ <div class="bow" aria-hidden="true"></div><div class="hs" aria-hidden="true"></div><div class="hs r" aria-hidden="true"></div>
+ <button class="dog" id="dogbtn" type="button" aria-label="Admin sign in"></button>
+ <h1 class="ttl fab">Christmas Potluck &amp;<br>White Elephant</h1>
+ <p class="sub">December 19 · Rosina &amp; Tany</p>
+ <a class="rsvp" href="https://www.icloud.com/invites/0c6mOxIeDS5Ie57w_VJYOZEVQ" target="_blank" rel="noopener"><svg viewBox="0 0 21 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="1" width="19" height="14" rx="2.5"/><path d="M1.5 3l9 6.5L19.5 3"/></svg>RSVP on Apple Invite ↗</a>
+ <div class="tabs" role="tablist" aria-label="Sections">
+  <button class="tab tabon" role="tab" id="t-potluck" aria-selected="true" aria-controls="potluck">Potluck</button>
+  <button class="tab taboff" role="tab" id="t-we" aria-selected="false" aria-controls="we">White Elephant</button>
+ </div>
+</header>
+<main class="stage"><div class="runner" aria-hidden="true"></div>
+ <div class="gs a" aria-hidden="true"></div><div class="gs b" aria-hidden="true"></div><div class="gs c" aria-hidden="true"></div><div class="gs d" aria-hidden="true"></div>
+ <section class="panel" id="potluck" role="tabpanel" aria-labelledby="t-potluck"></section>
+ <section class="panel" id="we" role="tabpanel" aria-labelledby="t-we" hidden>
+  <h2 class="ban wban"><span class="fab">White Elephant</span></h2>
+  <div class="gifts" aria-hidden="true"><i class="g g1"></i><i class="g g2"></i><i class="g g3"></i></div>
+  <div class="wcard"><p class="wh fab">Play solo or team up as a couple.</p><p class="wb">Bring one wrapped gift<br>(around $25) per entry.</p></div>
+  <div class="wfoot"><p>Let the gift stealing begin!</p></div>
+ </section>
+</main></div></div>
+<div class="adm mid" id="dlg" hidden><form class="acard" id="dform" role="dialog" aria-modal="true" aria-labelledby="dt" novalidate>
+ <h2 id="dt"></h2>
+ <label class="f" for="d-n"><span id="d-nl">Dish</span></label><input id="d-n" autocomplete="off" maxlength="60" aria-required="true" aria-describedby="derr" placeholder="What are you bringing?">
+ <label class="f" for="d-by"><span>Brought by</span></label><input id="d-by" autocomplete="name" maxlength="40" aria-required="true" aria-describedby="derr" placeholder="Your name">
+ <label class="f" for="d-note"><span>Comments (optional)</span></label><textarea id="d-note" maxlength="200" placeholder="Allergens, serving size, anything else"></textarea>
+ <p id="derr" role="alert"></p>
+ <div class="abtns"><button type="button" id="dcancel">Cancel</button><button type="button" id="ddel" class="del" hidden>Delete</button><button type="button" id="dsave" class="pri">Save</button></div>
+</form></div>
+<div class="adm" id="adm" hidden><div class="acard" role="dialog" aria-modal="true" aria-labelledby="adm-t">
+ <form id="alogin"><h2 id="adm-t">Admin</h2><label for="em">Email</label><input id="em" type="email" autocomplete="username"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password"><p id="perr" role="alert"></p><div class="abtns"><button type="button" id="pcancel">Cancel</button><button type="button" id="punlock" class="pri">Sign in</button></div></form>
+ <div id="amain" hidden><h2>Set the slots</h2><div class="atabs" role="tablist" id="atabs"></div><div id="arows"></div><p id="amsg" role="status"></p><div class="abtns"><button type="button" id="acancel">Cancel</button><button type="button" class="pri" id="asave">Save</button></div></div>
+</div></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="firebase-config.js"></script>
+<script src="app.js"></script>
+</body></html>
